@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Endereco;
 import java.sql.SQLException;
+import model.Cliente;
+import dao.ClienteDAO;
 
 /**
  *
  * @author Gabriel
  */
-@WebServlet(name = "GerenciarEndereco", urlPatterns = {"/gerenciarEndereco"})
+@WebServlet(name = "GerenciarEndereco", urlPatterns = {"/gerenciarEndereco"})  
 public class GerenciarEndereco extends HttpServlet {
+   
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -26,19 +29,22 @@ public class GerenciarEndereco extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String acao = request.getParameter("acao");
+       
         String idEndereco = request.getParameter("idEndereco");
+        
         String mensagem = "";
 
-        Endereco e = new Endereco();
+        Endereco E = new Endereco();
 
         EnderecoDao edao = new EnderecoDao();
+        
         try {
             if (acao.equals("listar")) {
 
-                ArrayList<Endereco> enderecos = new ArrayList<>();
-                enderecos = edao.getLista();
+                ArrayList<Endereco> Endereco = new ArrayList<>();
+                Endereco = edao.getLista();
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listarEndereco.jsp");
-                request.setAttribute("endereco", enderecos);
+                request.setAttribute("Endereco", Endereco);
                 dispatcher.forward(request, response);
 
             } else if (acao.equals("alterar")) {
@@ -48,15 +54,15 @@ public class GerenciarEndereco extends HttpServlet {
 
             }
 
-        } catch (SQLException en) {
-            mensagem = "Erro: " + en.getMessage();
-            en.printStackTrace();
+        } catch (SQLException e) {
+            mensagem = "Erro: " + e.getMessage();
+            e.printStackTrace();
         }
 
         out.println(
                 "<script type='text/javascript'>"
-                + "alert('" + mensagem + "');"
-                + "location.href='gerenciarEndereco?acao=listar';"
+                + "alert('"+mensagem+"');"
+                + "location.href='gerenciarEndereco?acao=listar';" 
                 + "</script>"
         );
     }

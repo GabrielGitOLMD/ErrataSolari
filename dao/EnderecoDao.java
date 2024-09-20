@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 import model.Endereco;
+import model.Cliente;
 public class EnderecoDao {
     Connection con;
     PreparedStatement ps;
@@ -20,23 +21,28 @@ public class EnderecoDao {
        
     public ArrayList<Endereco> getLista()throws SQLException{
         sql = "SELECT idEndereco, cep, estado, cidade, "
-                + "bairro, complemento, numero" +
+                + "bairro, complemento, numero, idCliente" +
                 "FROM endereco";
         con = ConexaoFactory.conectar();
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         while(rs.next()){
-            Endereco e = new Endereco();
-            e.setIdEndereco(rs.getInt("idEndereco"));
-            e.setCep(rs.getInt("cep"));
-            e.setEstado(rs.getString("estado"));
-            e.setCidade(rs.getString("cidade"));
-            e.setBairro(rs.getString("bairro"));
-            e.setComplemento(rs.getString("complemento"));
-            e.setNumero(rs.getInt("numero"));
+            Endereco E = new Endereco();
+            
+            E.setIdEndereco(rs.getInt("idEndereco"));
+            E.setCep(rs.getInt("cep"));
+            E.setEstado(rs.getString("estado"));
+            E.setCidade(rs.getString("cidade"));
+            E.setBairro(rs.getString("bairro"));
+            E.setComplemento(rs.getString("complemento"));
+            E.setNumero(rs.getInt("numero"));
+            
+            Cliente c = new Cliente();
+            c.setIdCliente(rs.getInt("idCliente"));
+            E.setCliente(c);
             
             
-            enderecos.add(e);
+            enderecos.add(E);
                       
             }
         ConexaoFactory.close(con);

@@ -20,10 +20,10 @@ public class Endereco {
     private int idEndereco;
     private int cep;
     private String estado;
-    private String cidade;
-    private String bairro; 
-    private String complemento;
-    private int numero;
-  //  private  cliente;
+    private  String cidade;
+    private  String bairro; 
+    private  String complemento;
+    private  int numero;
+    private Cliente cliente;
     
 }
